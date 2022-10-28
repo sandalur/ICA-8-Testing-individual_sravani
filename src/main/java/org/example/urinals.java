@@ -1,6 +1,5 @@
-import org.junit.jupiter.api.Test;
-// author: Srilakshmi Sravani Andaluri
-// sandalur
+package org.example;
+
 public class urinals {
     static void getString() {
         System.out.println("First Method not implemented!");
@@ -12,7 +11,14 @@ public class urinals {
         System.out.println("Third Method not implemented!");
     }
     static Boolean goodString(String my_str) {// checks to see if valid string
-        System.out.println("Not yet implemented");
+        for(int i=1; i<my_str.length();i++){
+            if(my_str.charAt(i)!=0 && my_str.charAt(i)!=1){
+                return false;
+            }
+            else if(my_str.charAt(i)==0 && my_str.charAt(i+1)==1){
+                return true;
+            }
+        }
 
         return true;
     }
@@ -21,12 +27,7 @@ public class urinals {
         getString();
         openFile();
         countUrinals();
-        String my_str = "Sravani";
-        if(goodString(my_str))
-            System.out.println("It is valid");
-        else
-            System.out.println("It is invalid");
+
 
     }
 }
-
