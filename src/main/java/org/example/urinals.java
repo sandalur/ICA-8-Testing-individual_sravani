@@ -7,16 +7,12 @@ import static java.lang.Integer.parseInt;
 
 @SuppressWarnings("ALL")
 public class urinals {
-    public static void getString() {
-    }
     public static void main(String[] args) {
-        getString();
         urinals obj=new urinals();
         Scanner textfile=new Scanner(System.in);
         System.out.println("Enter your choice: ");
         System.out.println("1.Keyboard input \n2.File Input");
         int choice=textfile.nextInt();
-
         if(choice==1)
         {
             System.out.println("Enter your input");
@@ -31,8 +27,7 @@ public class urinals {
 
     }
     public static Boolean goodString(String my_str) {// checks to  see if valid string
-        String[] givenString=my_str.split("");
-
+        //String[] givenString=my_str.split("");
         boolean flag=true;
         for(int i=0; i<my_str.length()-1;i++) {
             if (my_str.charAt(i) == '1' && my_str.charAt(i + 1) == '1') {
@@ -44,7 +39,6 @@ public class urinals {
     }
     static int countUrinals(String my_str) {
         urinals obj= new urinals();
-
         boolean flag= obj.goodString(my_str);
         if(!flag){
             return -1;
@@ -84,47 +78,49 @@ public class urinals {
         return count;
     }
 
-    public int openFile(String filepath){
+    public void openFile(String filepath) {
         try{
+            //String outputfile="src/rule.txt";
+            int counter=1;
+            File outputfile = new File("src/rule.txt");
+            while (outputfile.exists()){
+                outputfile= new File("src/rule"+counter+".txt");
+                counter++;
+            }
             urinals obj=new urinals();
-            File file=new File(filepath);
-            if(file==null)
+            //Read from input file
+            File newfile=new File(filepath);
+            if(newfile==null)
                 throw new IOException();
-            Scanner textfile=new Scanner(file);
-            while(textfile.hasNextLine()){
-                String givenString=textfile.nextLine();
-                System.out.println(givenString);
-                if(givenString.equals("-1")){
+            Scanner sc=new Scanner(newfile);
+            while(sc.hasNextLine()){
+                String givenString=sc.nextLine();
+                if(givenString.equals("-1"))
                     break;
-                }
-                else{
-                    int urinals_occupancy=obj.countUrinals(givenString);
-                    System.out.println(urinals_occupancy);
-                }
+
+                int urinals_occupancy=obj.countUrinals(givenString);
+                obj.createFiles(outputfile.getPath(),urinals_occupancy);
 
             }
-            return 1;
         }
         catch(IOException e)
         {
             System.out.println("Error in opening file");
             e.printStackTrace();
-            return 0;
+
         }
 
     }
     public void createFiles(String output,int urinals_occupancy){
         try {
             FileWriter inputfile = new FileWriter(output, true);
-            if(inputfile==null)
-                throw new IOException();
-            BufferedWriter writer=new BufferedWriter(inputfile);
-            if(writer==null)
+            BufferedWriter writerbuffer=new BufferedWriter(inputfile);
+            if(inputfile==null || writerbuffer==null)
                 throw new IOException();
 
-            writer.write(Integer.toString(urinals_occupancy));
-            writer.newLine();
-            writer.close();
+            writerbuffer.write(Integer.toString(urinals_occupancy));
+            writerbuffer.newLine();
+            writerbuffer.close();
         }
         catch(IOException e){
             System.out.println("Error opening output file");
