@@ -87,6 +87,7 @@ public class urinals {
                 outputfile= new File("src/rule"+counter+".txt");
                 counter++;
             }
+            System.out.println("New file created with name: "+outputfile.getName());
             urinals obj=new urinals();
             //Read from input file
             File newfile=new File(filepath);
