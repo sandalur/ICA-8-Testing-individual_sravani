@@ -27,10 +27,16 @@ public class urinals {
 
     }
     public static Boolean goodString(String my_str) {// checks to  see if valid string
-        //String[] givenString=my_str.split("");
+
         boolean flag=true;
-        for(int i=0; i<my_str.length()-1;i++) {
-            if (my_str.charAt(i) == '1' && my_str.charAt(i + 1) == '1') {
+        if(my_str.contains("11"))
+        {
+            return flag=false;
+        }
+
+        for(int i=0; i<=my_str.length()-1;i++){
+            int a=my_str.charAt(i);
+            if ((a!=48 && a!=49) ) {
                 flag = false;
                 break;
             }
@@ -40,6 +46,7 @@ public class urinals {
     static int countUrinals(String my_str) {
         urinals obj= new urinals();
         boolean flag= obj.goodString(my_str);
+//        System.out.println(flag);
         if(!flag){
             return -1;
         }
@@ -78,7 +85,7 @@ public class urinals {
         return count;
     }
 
-    public void openFile(String filepath) {
+    public void openFile(String filepath){
         try{
             //String outputfile="src/rule.txt";
             int counter=1;
@@ -91,8 +98,11 @@ public class urinals {
             urinals obj=new urinals();
             //Read from input file
             File newfile=new File(filepath);
+
             if(newfile==null)
                 throw new IOException();
+            if(!newfile.exists())
+                throw new FileNotFoundException();
             Scanner sc=new Scanner(newfile);
             while(sc.hasNextLine()){
                 String givenString=sc.nextLine();
@@ -103,13 +113,17 @@ public class urinals {
                 obj.createFiles(outputfile.getPath(),urinals_occupancy);
 
             }
-        }
-        catch(IOException e)
-        {
+        } catch(FileNotFoundException f){
             System.out.println("Error in opening file");
+            f.printStackTrace();
+
+        } catch(IOException e)
+        {
+            System.out.println("File is empty");
             e.printStackTrace();
 
         }
+
 
     }
     public void createFiles(String output,int urinals_occupancy){
